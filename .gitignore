@@ -1,0 +1,13 @@
+# Machine Learning Artifacts (Models)
+*.pkl
+*.joblib
+
+# Datasets
+data/*.csv
+*.csv
+
+# Python Cache & Environments
+__pycache__/
+*.pyc
+.env
+venv/
