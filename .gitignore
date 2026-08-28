@@ -1,5 +1,4 @@
 # Machine Learning Artifacts (Models)
-*.pkl
 *.joblib
 
 # Datasets
