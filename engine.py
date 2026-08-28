@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import pickle
-
+from pathlib import Path
 # Page configuration
 st.set_page_config(page_title="Calorie Burn Predictor", page_icon="🔥", layout="centered")
 
@@ -9,7 +9,10 @@ st.title("🔥 Calorie Burn Predictor")
 st.write("Predict the calories burned during your workout using Machine Learning!")
 
 # Load Pipeline Object (Model + Scaler inside)
-with open('Machine Learning Projects/02_Calorie_Burn_Prediction/artifacts/model.pkl', 'rb') as f:
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / 'artifacts' / 'model.pkl'
+
+with open(MODEL_PATH, 'rb') as f:
     pipeline = pickle.load(f)
 
 # User Inputs Form
@@ -28,13 +31,12 @@ with col2:
     heart_rate = st.number_input("Heart Rate (bpm)", min_value=60.0, max_value=220.0, value=110.0)
     body_temp = st.number_input("Body Temperature (°C)", min_value=35.0, max_value=42.0, value=38.5)
 
-# Convert Gender input to numerical format matching training data
-gender_encoded = 1 if gender == "Male" else 0
+
 
 # Predict Button
 if st.button("Predict Calories Burned", type="primary"):
     # Raw Input Data (Pipeline will handle scaling automatically!)
-    input_data = np.array([[gender_encoded, age, height, weight, duration, heart_rate, body_temp]])
+    input_data = np.array([[gender, age, height, weight, duration, heart_rate, body_temp]])
     
     # Direct Prediction through Pipeline
     prediction = pipeline.predict(input_data)
